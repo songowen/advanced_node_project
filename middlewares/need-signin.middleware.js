@@ -3,6 +3,7 @@ import { JWT_ACCESS_TOKEN_SECRET } from '../constants/security.costant.js';
 import db from '../models/index.cjs';
 const { Users } = db;
 
+
 export const needSignin = async (req, res, next) => {
   try {
     const authorizationHeader = req.headers.authorization;
@@ -15,6 +16,7 @@ export const needSignin = async (req, res, next) => {
     }
 
     const [tokenType, accessToken] = authorizationHeader?.split(' ');
+console.log(tokenType, accessToken)
 
     if (tokenType !== 'Bearer') {
       return res.status(400).json({
@@ -31,6 +33,7 @@ export const needSignin = async (req, res, next) => {
     }
 
     const decodedPayload = jwt.verify(accessToken, JWT_ACCESS_TOKEN_SECRET);
+
     const { userId } = decodedPayload;
 
     // 일치 하는 userId가 없는 경우

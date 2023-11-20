@@ -108,7 +108,7 @@ authRouter.post('/signin', async (req, res) => {
         message: '이메일 입력이 필요합니다.',
       });
     }
-
+    
     if (!password) {
       return res.status(400).json({
         success: false,
@@ -140,6 +140,7 @@ authRouter.post('/signin', async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    console.log(JWT_ACCESS_TOKEN_SECRET)
     return res.status(500).json({
       success: false,
       message: '예상치 못한 에러가 발생하였습니다. 관리자에게 문의하세요.',
