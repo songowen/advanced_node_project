@@ -1,8 +1,9 @@
+// needSignin.js
 import jwt from 'jsonwebtoken';
-import { JWT_ACCESS_TOKEN_SECRET } from '../constants/security.costant.js';
-import db from '../models/index.cjs';
-const { Users } = db;
+import { JWT_ACCESS_TOKEN_SECRET } from '../constants/security.constant.js'; // 파일 경로에 맞게 수정
+import { PrismaClient } from '@prisma/client';
 
+const prisma = new PrismaClient();
 
 export const needSignin = async (req, res, next) => {
   try {
@@ -16,7 +17,7 @@ export const needSignin = async (req, res, next) => {
     }
 
     const [tokenType, accessToken] = authorizationHeader?.split(' ');
-console.log(tokenType, accessToken)
+    console.log(tokenType, accessToken);
 
     if (tokenType !== 'Bearer') {
       return res.status(400).json({
@@ -36,8 +37,12 @@ console.log(tokenType, accessToken)
 
     const { userId } = decodedPayload;
 
-    // 일치 하는 userId가 없는 경우
-    const user = (await Users.findByPk(userId)).toJSON();
+    // Prisma로 사용자 조회
+    const user = await prisma.users.findUnique({
+      where: {
+        userId: userId,
+      },
+    });
 
     if (!user) {
       return res.status(400).json({
@@ -46,8 +51,12 @@ console.log(tokenType, accessToken)
       });
     }
 
-    delete user.password;
-    res.locals.user = user;
+    // 필요한 사용자 정보를 res.locals.user에 저장
+    res.locals.user = {
+      userId: user.userId,
+      email: user.email,
+      // ... (다른 필요한 정보 추가)
+    };
 
     next();
   } catch (error) {
@@ -77,5 +86,8 @@ console.log(tokenType, accessToken)
       success: false,
       message: errorMessage,
     });
+  } finally {
+    // Prisma 클라이언트 연결 해제
+    await prisma.$disconnect();
   }
 };
