@@ -10,8 +10,7 @@ export class AuthService {
   signUp = async (email, password, passwordConfirm, name) => {
      // 비밀번호 암호화
      const hashedPassword = bcrypt.hashSync(password, 10);
-     console.log('Received password:', password);
-     console.log('Hashed password:', hashedPassword);
+    
    
     const existingUser = await this.usersRepository.findByEmail(email,password);
    

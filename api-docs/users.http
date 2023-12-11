@@ -1,9 +1,18 @@
 @host = http://localhost:3306/api/users
 @accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJpYXQiOjE3MDIyNDE0NTAsImV4cCI6MTcwMjI4NDY1MH0.Ph7APLu4pyUU36qidjro5DjwVc2JkZNBQsyghr3-71c
 ### 내 정보 조회
-GET {{host}}/me
+GET {{host}}/12
 Authorization: Bearer {{accessToken}}
 
 ### 내 정보 수정
-GET {{host}}/me
+PUT {{host}}/12
+Content-Type: application/json
 Authorization: Bearer {{accessToken}}
+
+{
+   "name": "매니저",
+   "age": "23",
+   "gender": "male",
+   "profileImage":"dakjsdlkasjdjkdjl"
+
+}

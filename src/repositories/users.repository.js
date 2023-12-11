@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 export class UsersRepository {
   //내정보 조회
-  getUserInfo = async (userId) => {
+  findUserInfo = async (userId) => {
     const user = await prisma.users.findUnique({
       where: {
         userId: +userId,
@@ -13,19 +13,21 @@ export class UsersRepository {
   };
 
   //내정보 수정
-  updateUser = async (userId, password, title, content) => {
-    const updatedUser = await prisma.users.update({
-      where: {
-        userId: +userId,
-        password: password,
-      },
-      data: {
-        title,
-        content,
-      },
-    });
-    return updatedUser;
-  };
+updateUser = async (userId, updatedUserInfo) => {
+  const { name, age, gender, profileImage } = updatedUserInfo;
+  const updatedUser = await prisma.users.update({
+    where: {
+      userId: +userId,
+    },
+    data: {
+      name,
+      age,
+      gender,
+      profileImage,
+    },
+  });
+  return updatedUser;
+};
 
   // 회원가입
   createUser = async (email, password, name) => {
@@ -37,27 +39,22 @@ export class UsersRepository {
       },
     });
     return createdUser;
-    
   };
 
   //로그인
-  
-  findByEmail = async (email, password) => {
 
+  findByEmail = async (email, password) => {
     const user = await prisma.users.findUnique({
       where: {
         email: email,
       },
     });
-  
-   
-  
+
     if (user) {
       console.log('password', password);
       console.log('user.password', user.password);
       console.log('User Object:', user);
 
-      
       if (bcrypt.compareSync(password, user.password)) {
         return user;
       } else {

@@ -26,7 +26,7 @@ export class ProductsService {
   };
 
   // 상품 생성
-  create = async (title, price, content, userId, status) => {
+  create = async ({title, price, content, userId, status}) => {
     //저장소에 데이터 요청
     const createdProduct = await this.productsRepository.createProduct(
       title,
@@ -36,7 +36,7 @@ export class ProductsService {
       status,
     );
     //비지니스 로직 수행 후 사용자에게 보여줄 데이터 가공
-    return product;
+    return createdProduct;
   };
 
   findById = async (productId) => {
@@ -69,7 +69,7 @@ export class ProductsService {
       content,
     );
 
-    const updatedProduct = await this.productsRepository.updateProduct(
+    const updatedProduct = await this.productsRepository.findProductById(
       productId,
     );
 

@@ -1,13 +1,13 @@
-import { AuthService } from '../services/auth.service.js';
+import { UsersService } from '../services/users.service.js';
 
 export class UsersController {
-  authService = new AuthService();
+  usersService = new UsersService();
 
   //내정보 조회
-  getUserInfo = async (req, res, next) => {
+  getUser = async (req, res, next) => {
     try {
       const { userId } = req.params;
-      const userInfo = await this.authService.findUserInfo(userId);
+      const userInfo = await this.usersService.getUser(userId);
 
       return res.status(200).json({ data: userInfo });
     } catch (err) {
@@ -19,9 +19,9 @@ export class UsersController {
   updateUser = async (req, res, next) => {
     try {
         const { userId } = req.params;
-        const { password, title, content  } = req.body;
+        const { name, age, gender, profileImage  } = req.body;
 
-      const updatedUser = await this.authService.updateUser( userId, password, title, content );
+      const updatedUser = await this.usersService.updateUserInfo( userId, name, age, gender, profileImage );
       
       return res.status(200).json({ data: updatedUser });
     } catch (err) {
