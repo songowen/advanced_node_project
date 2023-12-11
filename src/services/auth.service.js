@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { JWT_ACCESS_TOKEN_SECRET } from '../constants/security.constant.js';
+import { JWT_ACCESS_TOKEN_SECRET, PASSWORD_HASH_SALT_ROUNDS,JWT_ACCESS_TOKEN_EXPIRES_IN} from '../constants/security.constant.js';
 import { UsersRepository } from '../repositories/users.repository.js';
 
 export class AuthService {
@@ -9,7 +9,7 @@ export class AuthService {
   // 회원 가입
   signUp = async (email, password, passwordConfirm, name) => {
      // 비밀번호 암호화
-     const hashedPassword = bcrypt.hashSync(password, 10);
+     const hashedPassword = bcrypt.hashSync(password, PASSWORD_HASH_SALT_ROUNDS);
     
    
     const existingUser = await this.usersRepository.findByEmail(email,password);
@@ -76,7 +76,7 @@ export class AuthService {
       { userId: user.userId },
       JWT_ACCESS_TOKEN_SECRET,
       {
-        expiresIn: '12h', // 토큰 유효 기간 설정 (예: 12시간)
+        expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN, // 토큰 유효 기간 설정 (예: 12시간)
       },
     );
 

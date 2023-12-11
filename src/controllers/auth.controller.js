@@ -25,9 +25,9 @@ export class AuthController {
       const { email, password } = req.body;
 
       const createdUser = await this.authService.signIn(email, password);
-      console.log('createdUserpassword',createdUser.password)
+      
      
-      return res.status(200).json({ data: createdUser });
+      return res.status(200).json({ message:"로그인에 성공했습니다.",data: createdUser });
 
     } catch (err) {
       next(err);
