@@ -18,7 +18,7 @@ export class AuthService {
       const errEmailDuplicated = new Error('해당 이메일이 이미 사용 중입니다.');
       errEmailDuplicated.status = 401;
       throw errEmailDuplicated;
-    }
+    }  
 
     if (password.length < 6) {
       const errPasswordDigit6 = new Error(
