@@ -15,7 +15,7 @@ export class UsersRepository {
   //내정보 수정
 updateUser = async (userId, updatedUserInfo) => {
   const { name, age, gender, profileImage } = updatedUserInfo;
-  const updatedUser = await prisma.users.update({
+  const updatedUser = await prisma.userInfos.update({
     where: {
       userId: +userId,
     },

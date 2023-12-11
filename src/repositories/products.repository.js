@@ -2,14 +2,14 @@ import { prisma } from '../utils/prisma/index.js';
 
 export class ProductsRepository {
   //findAllProducts
-  findAllProducts = async () => {
+  findAll = async () => {
     // ORM인 Prisma에서 Products 모델의 findMany 메서드를 사용해 데이터를 요청합니다.
     const products = await prisma.products.findMany();
 
     return products;
   };
   //createProduct
-  createProduct = async (title, price, content, userId, status) => {
+  createProduct = async ({title, price, content, userId, status}) => {
     const createdProduct = await prisma.products.create({
       data: {
         title,
@@ -32,7 +32,7 @@ export class ProductsRepository {
   };
 
   //updateProduct
-  updateProduct = async (productId, title, price, content) => {
+  updateProduct = async ({productId, title, price, content,status}) => {
     const updatedProduct = await prisma.products.update({
       where: {
         productId: +productId,
@@ -41,6 +41,7 @@ export class ProductsRepository {
         title,
         price,
         content,
+        status,
       },
     });
     return updatedProduct;
