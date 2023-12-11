@@ -6,7 +6,7 @@ const router = express.Router();
 const usersController = new UsersController();
 
 // 인증이 필요한 라우터에 미들웨어 추가
-router.get('/users/:userId', needSignin, usersController.getUserInfo);
-router.put('/users/:userId', needSignin, usersController.updateUser);
+router.get('/:userId', needSignin, usersController.getUser);
+router.put('/:userId', needSignin, usersController.updateUser);
 
 export default router;

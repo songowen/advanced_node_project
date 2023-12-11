@@ -9,7 +9,7 @@ export class ProductsRepository {
     return products;
   };
   //createProduct
-  create = async (title, price, content, userId, status) => {
+  createProduct = async (title, price, content, userId, status) => {
     const createdProduct = await prisma.products.create({
       data: {
         title,

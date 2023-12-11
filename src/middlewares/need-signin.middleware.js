@@ -57,7 +57,8 @@ export const needSignin = async (req, res, next) => {
       email: user.email,
       // ... (다른 필요한 정보 추가)
     };
-
+// req.user에 사용자 정보 추가
+req.user = res.locals.user;
     next();
   } catch (error) {
     // 검증에 실패한 경우

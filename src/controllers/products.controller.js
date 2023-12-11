@@ -9,7 +9,8 @@ export class ProductsController {
     try {
 
       const { title, price, content } = req.body;
-      const userId = req.user.userId
+      const userId = req.user.userId;
+
      await this.productsService.create({
         title,
         price,
