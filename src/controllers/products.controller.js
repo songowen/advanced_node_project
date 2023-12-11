@@ -7,9 +7,9 @@ export class ProductsController {
   //상품 생성
   create = async (req, res, next) => {
     try {
-
-      const { title, price, content } = req.body;
       const userId = req.user.userId;
+      const { title, price, content } = req.body;
+     
 
      await this.productsService.create({
         title,
@@ -52,7 +52,8 @@ export class ProductsController {
     try {
         const { productId } = req.params
         const { title, price, content, status } = req.body; 
-        await this.productsService.update(Number(productId), req.user.userId ,{
+        const updatedProduct = await this.productsService.update({
+          productId,
         title,
         price,
         content,
@@ -69,8 +70,8 @@ export class ProductsController {
     try {
         const { productId } = req.params       
 
-         await this.productsService.delete(
-          productId,            
+        const deletedProduct = await this.productsService.delete(
+          Number(productId), req.user.userId        
         )
 
       return res.status(200).json({ data: deletedProduct });

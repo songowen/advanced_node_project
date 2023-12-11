@@ -7,8 +7,8 @@ const productsController = new ProductsController();
 
 // 인증이 필요한 라우터에 미들웨어 추가
 router.post('/', needSignin, productsController.create);
-router.get('/', needSignin, productsController.findAll);
-router.get('/:productId', needSignin, productsController.findById);
+router.get('/', productsController.findAll);
+router.get('/:productId', productsController.findById);
 router.put('/:productId', needSignin, productsController.update);
 router.delete('/:productId', needSignin, productsController.delete);
 

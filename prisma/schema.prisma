@@ -15,31 +15,14 @@ model Users {
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @updatedAt @map("updatedAt")
 
-  UserInfos UserInfos? // 사용자(Users) 테이블과 사용자 정보(UserInfos) 테이블이 1:1 관계를 맺습니다.
-  Products Products[] // 사용자(Users) 테이블과 상품(Products) 테이블이 1:N 관계를 맺습니다.
+   Products Products[] // 사용자(Users) 테이블과 상품(Products) 테이블이 1:N 관계를 맺습니다.
   
   @@map("Users")
 }
 
-model UserInfos {
-  userInfoId   Int      @id @default(autoincrement()) @map("userInfoId")
-  UserId       Int      @unique @map("UserId") // 사용자(Users) 테이블을 참조하는 외래키
-  name         String   @map("name")
-  age          Int?     @map("age")
-  gender       String   @map("gender")
-  profileImage String?  @map("profileImage")
-  createdAt    DateTime @default(now()) @map("createdAt")
-  updatedAt    DateTime @updatedAt @map("updatedAt")
-
-  // Users 테이블과 관계를 설정합니다.
-  User Users @relation(fields: [UserId], references: [userId], onDelete: Cascade)
-
-  @@map("UserInfos")
-}
-
 model Products {
   productId  Int      @id @default(autoincrement()) @map("productId")
-  UserId     Int      @map("UserId") // 사용자(Users) 테이블을 참조하는 외래키
+  userId     Int      @map("userId") // 사용자(Users) 테이블을 참조하는 외래키
   title      String   @map("title")
   price      Int      @map("price")
   content    String   @map("content") @db.Text
@@ -48,7 +31,7 @@ model Products {
   updatedAt  DateTime @updatedAt @map("updatedAt")
 
   // Users 테이블과 관계를 설정합니다.
-  User Users @relation(fields: [UserId], references: [userId], onDelete: Cascade)
+  User Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@map("Products")
 }
